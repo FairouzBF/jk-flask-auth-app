@@ -14,8 +14,9 @@ pipeline {
     stage('Build image') {
       agent any
       steps {
-        script {
-          sh 'docker build -t ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG .'
+        script { // Étape de construction de l'image Docker
+          sh 'docker  builder build --platform linux/arm64 -t ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG .' // Commande Docker pour construire l'image ARM
+          sh 'docker builder build --platform linux/amd64 -t ${ID_DOCKER}/$IMAGE_NAME:${IMAGE_TAG}-AMD .' // Commande Docker pour construire l'image AMD
         }
       }
     }
@@ -64,7 +65,10 @@ pipeline {
       }            
       steps {
         script {
-          sh '''docker push ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG'''
+          sh '''
+            docker push ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG
+            docker push ${ID_DOCKER}/$IMAGE_NAME:${IMAGE_TAG}-AMD
+          '''
         }
       }
     }
