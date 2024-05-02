@@ -16,9 +16,6 @@ COPY . .
 # Expose port 5000 to allow communication to/from the Flask application running inside the container
 EXPOSE 5000
 
-# Set the environment variable FLASK_ENV to 'production'
-ENV FLASK_ENV=production
-
 # Run the Gunicorn web server, binding it to all available interfaces on port defined by the $PORT environment variable,
 # and specify the entry point of the Flask application (main.py) as 'main:app'
 CMD gunicorn --bind 0.0.0.0:$PORT main:app
